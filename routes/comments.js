@@ -26,23 +26,23 @@ router.get('/', async (req, res) => {
 });
 
 
-// GET a product by id.
-// http://localhost:3007/api/products/:productId
-//router.get('/:productId', async (req, res) => {
-//    try {
-//        let product = await Product.findById(req.params.productId);
-//        if (!product)
-//            return res
-//                .status(400)
-//                .send(`Product with ObjectId ${req.params.productId} does not exist.`);
-//
-//        return res.status(200).send(product);
-//    } catch (error) {
-//        return res
-//            .status(500)
-//            .send(`Internal Server Error: ${error}`);
-//    }
-//});
+// GET a comment by id.
+// http://localhost:3007/api/comments/:commentsId
+router.get('/:commentId', async (req, res) => {
+    try {
+        let comment = await Comment.findById(req.params.commentId);
+        if (!comment)
+            return res
+                .status(400)
+                .send(`Comment with ObjectId ${req.params.commentId} does not exist.`);
+
+        return res.status(200).send(comment);
+    } catch (error) {
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${error}`);
+    }
+});
 
 
 // POST a new comment.
@@ -66,44 +66,44 @@ router.post('/', async (req, res) => {
 });
 
 
-//// PUT an existing product.
-//// http://localhost:3007/api/products/:productId
-//router.put('/:productId', async (req, res) => {
-//    try {
-//        const { error } = validateProduct(req.body);
-//        if (error) return res.status(400).send(error);
-//
-//        let product = await Product.findByIdAndUpdate(req.params.productId, req.body, { new: true });
-//        if (!product)
-//            return res
-//                .status(400)
-//                .send(`Product with ObjectId ${req.params.productId} does not exist.`);
-//
-//        return res.status(200).send(product);
-//    } catch (error) {
-//        return res
-//            .status(500)
-//            .send(`Internal Server Error: ${error}`);
-//    }
-//});
-//
-//
-//// DELETE an existing product.
-//// http://localhost:3007/api/products/:productId
-//router.delete('/:productId', async (req, res) => {
-//    try {
-//        let product = await Product.findByIdAndDelete(req.params.productId);
-//        if (!product)
-//            return res
-//                .status(400)
-//                .send(`Product with ObjectId ${req.params.productId} does not exist.`);
-//
-//        return res.status(200).send(product);
-//    } catch (error) {
-//        return res
-//            .status(500)
-//            .send(`Internal Server Error: ${error}`);
-//    }
-//});
+// PUT an existing comment.
+// http://localhost:3007/api/comments/:commentsId
+router.put('/:commentId', async (req, res) => {
+    try {
+        const { error } = validateComment(req.body);
+        if (error) return res.status(400).send(error);
+
+        let comment = await Comment.findByIdAndUpdate(req.params.commentId, req.body, { new: true });
+        if (!comment)
+            return res
+                .status(400)
+                .send(`comment with ObjectId ${req.params.commentId} does not exist.`);
+
+        return res.status(200).send(comment);
+    } catch (error) {
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${error}`);
+    }
+});
+
+
+// DELETE an existing comment.
+// http://localhost:3007/api/comments/:commentsId
+router.delete('/:commentId', async (req, res) => {
+    try {
+        let comment = await Comment.findByIdAndDelete(req.params.commentId);
+        if (!comment)
+            return res
+                .status(400)
+                .send(`Comment with ObjectId ${req.params.commentId} does not exist.`);
+
+        return res.status(200).send(comment);
+    } catch (error) {
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${error}`);
+    }
+});
 
 module.exports = router;
