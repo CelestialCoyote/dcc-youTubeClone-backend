@@ -1,5 +1,4 @@
 const express = require("express");
-const { Comment, validateComment } = require("../models/comment");
 const { Reply, validateReply } = require("../models/reply");
 
 
@@ -7,17 +6,17 @@ const router = express.Router();
 
 // Endpoints
 
-// GET all comments.
-// http://localhost:3007/api/comments
+// GET all replies.
+// http://localhost:3007/api/replies
 router.get('/', async (req, res) => {
     try {
-        let comments = await Comment.find();
-        if (!comments)
+        let replies = await Reply.find();
+        if (!replies)
             return res
                 .status(400)
-                .send('No comments in this collection.');
+                .send('No replies in this collection.');
 
-        return res.status(200).send(comments);
+        return res.status(200).send(replies);
     } catch (error) {
         return res
             .status(500)
