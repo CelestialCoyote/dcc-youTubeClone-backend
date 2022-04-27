@@ -6,6 +6,7 @@ const cors = require("cors");
 
 const products = require('./routes/products');
 const users = require('./routes/users');
+const comments = require('./routes/comments');
 
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/products', products);
 app.use('/api/users', users);
+app.use('/api/comments', comments);
 
 const PORT = process.env.PORT || 5000;
 
