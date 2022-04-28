@@ -17,7 +17,9 @@ router.get('/', async (req, res) => {
                 .status(400)
                 .send('No comments in this collection.');
 
-        return res.status(200).send(comments);
+        return res
+            .status(200)
+            .send(comments);
     } catch (error) {
         return res
             .status(500)
@@ -36,7 +38,9 @@ router.get('/:commentId', async (req, res) => {
                 .status(400)
                 .send(`Comment with ObjectId ${req.params.commentId} does not exist.`);
 
-        return res.status(200).send(comment);
+        return res
+            .status(200)
+            .send(comment);
     } catch (error) {
         return res
             .status(500)
@@ -50,7 +54,10 @@ router.get('/:commentId', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const { error } = validateComment(req.body);
-        if (error) return res.status(400).send(`Body for comment not valid! ${error}`);
+        if (error)
+            return res
+                .status(400)
+                .send(`Body for comment not valid! ${error}`);
 
         let newComment = await new Comment(req.body);
         await newComment.save();
@@ -66,12 +73,15 @@ router.post('/', async (req, res) => {
 });
 
 
-// PUT an existing comment.
+// PUT update comment, likes, dislikes of an existing comment.
 // http://localhost:3007/api/comments/:commentsId
 router.put('/:commentId', async (req, res) => {
     try {
         const { error } = validateComment(req.body);
-        if (error) return res.status(400).send(error);
+        if (error)
+            return res
+                .status(400)
+                .send(`Body for comment not valid! ${error}`);
 
         let comment = await Comment.findByIdAndUpdate(req.params.commentId, req.body, { new: true });
         if (!comment)
@@ -79,7 +89,9 @@ router.put('/:commentId', async (req, res) => {
                 .status(400)
                 .send(`comment with ObjectId ${req.params.commentId} does not exist.`);
 
-        return res.status(200).send(comment);
+        return res
+            .status(200)
+            .send(comment);
     } catch (error) {
         return res
             .status(500)
@@ -98,7 +110,9 @@ router.delete('/:commentId', async (req, res) => {
                 .status(400)
                 .send(`Comment with ObjectId ${req.params.commentId} does not exist.`);
 
-        return res.status(200).send(comment);
+        return res
+            .status(200)
+            .send(comment);
     } catch (error) {
         return res
             .status(500)
@@ -107,26 +121,42 @@ router.delete('/:commentId', async (req, res) => {
 });
 
 
-// POST reply
+// POST reply to existing comment.
 // http://localhost:3007/api/comments/:commentsId/replies
-router.post('/:commentId', async (req, res) => {
+router.post('/:commentId/replies', async (req, res) => {
     try {
-        const { error } = validateComment(req.body);
-        if (error) return res.status(400).send(error);
+        const { error } = validateReply(req.body);
+        if (error)
+            return res
+                .status(400)
+                .send(`Body for reply not valid! ${error}`);
 
-        let comment = await Comment.findById(req.params.commentId, req.body);
+        let comment = await Comment.findById(req.params.commentId);
         if (!comment)
             return res
                 .status(400)
-                .send(`comment with ObjectId ${req.params.commentId} does not exist.`);
+                .send(`Comment with ObjectId ${req.params.commentId} does not exist.`);
 
-        return res.status(200).send(comment);
+        const reply = await new Reply(req.body);
+        comment.replies.push(reply);
+
+        await comment.save();
+        return res
+            .status(200)
+            .send(comment);
     } catch (error) {
         return res
             .status(500)
             .send(`Internal Server Error: ${error}`);
     }
 });
+
+
+//'/byVideoID/:videoID'
+//'/:commentID/replies/:replyID'
+
+//const reply = comment.replies.id(req.params.replyID);
+
 
 
 module.exports = router;
