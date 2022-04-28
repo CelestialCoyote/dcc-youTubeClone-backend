@@ -106,4 +106,27 @@ router.delete('/:commentId', async (req, res) => {
     }
 });
 
+
+// POST reply
+// http://localhost:3007/api/comments/:commentsId/replies
+router.post('/:commentId', async (req, res) => {
+    try {
+        const { error } = validateComment(req.body);
+        if (error) return res.status(400).send(error);
+
+        let comment = await Comment.findById(req.params.commentId, req.body);
+        if (!comment)
+            return res
+                .status(400)
+                .send(`comment with ObjectId ${req.params.commentId} does not exist.`);
+
+        return res.status(200).send(comment);
+    } catch (error) {
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${error}`);
+    }
+});
+
+
 module.exports = router;

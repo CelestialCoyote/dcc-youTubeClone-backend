@@ -18,6 +18,8 @@ const validateComment = (comment) => {
     const schema = Joi.object({
         videoID: Joi.string().required(),
         text: Joi.string().min(2).max(50).required(),
+        likes: Joi.number(),
+        dislikes: Joi.number(),
         replies: Joi.array(),
     });
     
