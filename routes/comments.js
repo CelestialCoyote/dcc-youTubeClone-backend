@@ -28,15 +28,36 @@ router.get('/', async (req, res) => {
 });
 
 
-// GET a comment by id.
-// http://localhost:3007/api/comments/:commentsId
-router.get('/:commentId', async (req, res) => {
+// GET a comment by ID.
+// http://localhost:3007/api/comments/:commentsID
+router.get('/:commentID', async (req, res) => {
     try {
         let comment = await Comment.findById(req.params.commentId);
         if (!comment)
             return res
                 .status(400)
                 .send(`Comment with ObjectId ${req.params.commentId} does not exist.`);
+
+        return res
+            .status(200)
+            .send(comment);
+    } catch (error) {
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${error}`);
+    }
+});
+
+
+// GET all comments by video ID.
+// http://localhost:3007/api/comments/videoID/:videoID
+router.get('/videoID/:videoID', async (req, res) => {
+    try {
+        let comment = await Comment.find( { videoID: req.params.videoID } );
+        if (!comment)
+            return res
+                .status(400)
+                .send(`Comment with ObjectId ${req.params.videoID} does not exist.`);
 
         return res
             .status(200)
@@ -152,7 +173,6 @@ router.post('/:commentId/replies', async (req, res) => {
 });
 
 
-//'/byVideoID/:videoID'
 //'/:commentID/replies/:replyID'
 
 //const reply = comment.replies.id(req.params.replyID);
