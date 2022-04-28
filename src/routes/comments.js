@@ -29,14 +29,14 @@ router.get('/', async (req, res) => {
 
 
 // GET a comment by ID.
-// http://localhost:3007/api/comments/:commentsID
+// http://localhost:3007/api/comments/:commentID
 router.get('/:commentID', async (req, res) => {
     try {
-        let comment = await Comment.findById(req.params.commentId);
+        let comment = await Comment.findById(req.params.commentID);
         if (!comment)
             return res
                 .status(400)
-                .send(`Comment with ObjectId ${req.params.commentId} does not exist.`);
+                .send(`Comment with ObjectId ${req.params.commentID} does not exist.`);
 
         return res
             .status(200)
@@ -96,7 +96,7 @@ router.post('/', async (req, res) => {
 
 // PUT update comment, likes, dislikes of an existing comment.
 // http://localhost:3007/api/comments/:commentsId
-router.put('/:commentId', async (req, res) => {
+router.put('/:commentID', async (req, res) => {
     try {
         const { error } = validateComment(req.body);
         if (error)
@@ -104,11 +104,11 @@ router.put('/:commentId', async (req, res) => {
                 .status(400)
                 .send(`Body for comment not valid! ${error}`);
 
-        let comment = await Comment.findByIdAndUpdate(req.params.commentId, req.body, { new: true });
+        let comment = await Comment.findByIdAndUpdate(req.params.commentID, req.body, { new: true });
         if (!comment)
             return res
                 .status(400)
-                .send(`comment with ObjectId ${req.params.commentId} does not exist.`);
+                .send(`comment with ObjectId ${req.params.commentID} does not exist.`);
 
         return res
             .status(200)
@@ -123,13 +123,13 @@ router.put('/:commentId', async (req, res) => {
 
 // DELETE an existing comment.
 // http://localhost:3007/api/comments/:commentsId
-router.delete('/:commentId', async (req, res) => {
+router.delete('/:commentID', async (req, res) => {
     try {
-        let comment = await Comment.findByIdAndDelete(req.params.commentId);
+        let comment = await Comment.findByIdAndDelete(req.params.commentID);
         if (!comment)
             return res
                 .status(400)
-                .send(`Comment with ObjectId ${req.params.commentId} does not exist.`);
+                .send(`Comment with ObjectId ${req.params.commentID} does not exist.`);
 
         return res
             .status(200)
@@ -144,7 +144,7 @@ router.delete('/:commentId', async (req, res) => {
 
 // POST reply to existing comment.
 // http://localhost:3007/api/comments/:commentsId/replies
-router.post('/:commentId/replies', async (req, res) => {
+router.post('/:commentID/replies', async (req, res) => {
     try {
         const { error } = validateReply(req.body);
         if (error)
@@ -152,16 +152,16 @@ router.post('/:commentId/replies', async (req, res) => {
                 .status(400)
                 .send(`Body for reply not valid! ${error}`);
 
-        let comment = await Comment.findById(req.params.commentId);
+        let comment = await Comment.findById(req.params.commentID);
         if (!comment)
             return res
                 .status(400)
-                .send(`Comment with ObjectId ${req.params.commentId} does not exist.`);
+                .send(`Comment with ObjectId ${req.params.commentID} does not exist.`);
 
         const reply = await new Reply(req.body);
         comment.replies.push(reply);
-
         await comment.save();
+
         return res
             .status(200)
             .send(comment);
@@ -173,10 +173,50 @@ router.post('/:commentId/replies', async (req, res) => {
 });
 
 
-//'/:commentID/replies/:replyID'
+// GET all replies to existing comment.
+// http://localhost:3007/api/comments/:commentsId/replies
+router.get('/:commentID/replies', async (req, res) => {
+    try {
+        let comment = await Comment.findById(req.params.commentID);
+        if (!comment)
+            return res
+                .status(400)
+                .send(`Comment with ObjectId ${req.params.commentID} does not exist.`);
 
-//const reply = comment.replies.id(req.params.replyID);
+        const reply = comment.replies;
 
+        return res
+            .status(200)
+            .send(reply);
+    } catch (error) {
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${error}`);
+    }
+});
+
+
+// GET a replies to existing comment by reply ID.
+// http://localhost:3007/api/comments/:commentsId/replies/:replyID
+router.get('/:commentID/replies/:replyID', async (req, res) => {
+    try {
+        let comment = await Comment.findById(req.params.commentID);
+        if (!comment)
+            return res
+                .status(400)
+                .send(`Comment with ObjectId ${req.params.commentID} does not exist.`);
+
+        let reply = comment.replies.id(req.params.replyID);
+
+        return res
+            .status(200)
+            .send(reply);
+    } catch (error) {
+        return res
+            .status(500)
+            .send(`Internal Server Error: ${error}`);
+    }
+});
 
 
 module.exports = router;

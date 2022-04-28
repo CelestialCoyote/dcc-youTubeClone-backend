@@ -1,0 +1,214 @@
+{
+	"info": {
+		"_postman_id": "0297bc13-6dec-4bfd-b069-8f11c136c84f",
+		"name": "dcc-youtubeclone-backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST a comment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"videoID\": \"3203bnmo\",\n    \"text\": \"This is a comment about 'The Marian'.\",\n    \"likes\": 1,\n    \"dislikes\": 3,\n    \"replies\": []\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3007/api/comments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3007",
+					"path": [
+						"api",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET all comments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3007/api/comments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3007",
+					"path": [
+						"api",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET comment by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3007/api/comments/626ae8692ed7ff68e9248e80",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3007",
+					"path": [
+						"api",
+						"comments",
+						"626ae8692ed7ff68e9248e80"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT update an existing comment",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"videoID\": \"0002efgh\",\n    \"text\": \"This is a test, another test, and another.\",\n    \"likes\": 1,\n    \"dislikes\": 0,\n    \"replies\": []\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3007/api/comments/6269ae88f3a9993d7e978fd9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3007",
+					"path": [
+						"api",
+						"comments",
+						"6269ae88f3a9993d7e978fd9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE an existing comment by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3007/api/comments/6269ae21f3a9993d7e978fd7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3007",
+					"path": [
+						"api",
+						"comments",
+						"6269ae21f3a9993d7e978fd7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST new reply to existing comment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"Husky video reply 100.\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3007/api/comments/626ae8692ed7ff68e9248e80/replies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3007",
+					"path": [
+						"api",
+						"comments",
+						"626ae8692ed7ff68e9248e80",
+						"replies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET all comments by video ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3007/api/comments/videoID/0003bnmo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3007",
+					"path": [
+						"api",
+						"comments",
+						"videoID",
+						"0003bnmo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET all replies for a comment by comment ID",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GET reply by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3007/api/comments/6269ae88f3a9993d7e978fd9/replies/626af7a09def3f4b6019f29d",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3007",
+					"path": [
+						"api",
+						"comments",
+						"6269ae88f3a9993d7e978fd9",
+						"replies",
+						"626af7a09def3f4b6019f29d"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
