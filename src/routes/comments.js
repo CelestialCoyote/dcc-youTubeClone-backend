@@ -71,8 +71,8 @@ router.get('/videoID/:videoID', async (req, res) => {
 
 
 // POST a new comment.
-// http://localhost:3007/api/comments
-router.post('/', async (req, res) => {
+// http://localhost:3007/api/comments/videoID/:videoID/
+router.post('/videoID/:videoID', async (req, res) => {
     try {
         const { error } = validateComment(req.body);
         if (error)
@@ -83,9 +83,11 @@ router.post('/', async (req, res) => {
         let newComment = await new Comment(req.body);
         await newComment.save();
 
+        let comments = await Comment.find( { videoID: req.params.videoID } );
+
         return res
             .status(201)
-            .send(newComment);
+            .send(comments);
     } catch (error) {
         return res
             .status(500)
